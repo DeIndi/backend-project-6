@@ -1,0 +1,19 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/DeIndi/backend-project-6/workflows/hexlet-check/badge.svg)](https://github.com/DeIndi/backend-project-6/actions)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeIndi/backend-project-6.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DeIndi/backend-project-6/issues"
+  },
+  "homepage": "https://github.com/DeIndi/backend-project-6#readme"
+}
