@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Learning project. Task Manager – система управления задачами, подобная http://www.redmine.org/. Она позволяет ставить задачи, назначать исполнителей и менять их статусы.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist",
     "test": "jest --verbose --runInBand",
