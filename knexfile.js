@@ -26,6 +26,7 @@ export const test = {
   migrations,
 };
 
+// TODO: указать Postgres + в Railway
 export const production = {
   client: 'sqlite3',
   connection: {
