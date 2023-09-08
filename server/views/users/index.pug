@@ -7,11 +7,43 @@ block content
         th= t('views.users.id')
         th= t('views.users.firstName')
         th= t('views.users.lastName')
+        th= t('views.users.username')
         th= t('views.users.email')
         th= t('views.users.createdAt')
+        th= 'Actions'
     tbody
       each user in users
         tr
           td= user.id
+          td= user.firstName
+          td= user.lastName
+          td= user.username
           td= user.email
           td= formatDate(user.createdAt)
+          td
+            button(type="button", class="delete-button", data-user-id=user.id) t('views.users.delete')
+
+  script.
+    document.addEventListener("DOMContentLoaded", () => {
+      const deleteButtons = document.querySelectorAll(".delete-button");
+
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const userId = button.getAttribute("data-user-id");
+
+          fetch(`/users/${userId}`, {
+            method: "DELETE",
+          })
+                  .then(function (response) {
+                    if (response.ok) {
+                      button.closest("tr").remove();
+                    } else {
+                      console.error("Failed to delete user");
+                    }
+                  })
+                  .catch(function (error) {
+                    console.error("Error:", error);
+                  });
+        });
+      });
+    })

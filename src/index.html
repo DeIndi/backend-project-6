@@ -3,12 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registration</title>
+  <title>Менеджер задач</title>
 </head>
 <body>
-<!-- Include the rendered Pug HTML using an iframe -->
-<iframe src="/registration-form" frameborder="0" width="100%" height="600"></iframe>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <div class="container"><a class="navbar-brand" href="/">Менеджер задач</a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent"><span
+        class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+      <ul class="navbar-nav justify-content-end w-100">
+        <li class="nav-item me-auto"><a class="nav-link" href="/users">Пользователи</a></li>
+        <li class="nav-item"><a class="nav-link" href="/session/new">Вход</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users/new">Регистрация</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="card-body p-5">
+  <iframe src="/registration-form" frameborder="0" width="100%" height="600"></iframe>
+</div>
 <!-- Include other scripts, styles, or libraries as needed -->
 </body>
 </html>
