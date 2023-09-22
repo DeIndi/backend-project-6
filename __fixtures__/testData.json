@@ -1,12 +1,87 @@
 {
   "users": {
     "new": {
+      "firstName": "Malika",
+      "lastName": "Hodkiewicz",
       "email": "malika_hodkiewicz75@live.com",
       "password": "RLJvaIgPOnX5r03"
     },
     "existing": {
+      "firstName": "Lawrence",
+      "lastName": "Kulas",
       "email": "lawrence.kulas87@outlook.com",
       "password": "O6AvLIQL1cbzrre"
+    },
+    "updated": {
+      "firstName": "John",
+      "lastName": "Smith",
+      "email": "john.smith91@live.com",
+      "password": "IgPOLIQL1cbvaIg"
+    },
+    "deleted": {
+      "firstName": "Jenny",
+      "lastName": "Nelson",
+      "email": "jenny_nelson@gmail.com",
+      "password": "RLJvaIgPOnX5r03"
+    }
+  },
+  "taskStatuses": {
+    "new": {
+      "name": "in testing"
+    },
+    "existing": {
+      "name": "in progress"
+    },
+    "updated": {
+      "name": "finished"
+    },
+    "deleted": {
+      "name": "ready"
+    }
+  },
+  "labels": {
+    "new": {
+      "name": "bug"
+    },
+    "existing": {
+      "name": "content"
+    },
+    "updated": {
+      "name": "smm"
+    },
+    "deleted": {
+      "name": "testing"
+    }
+  },
+  "tasks": {
+    "new": {
+      "name": "Task new",
+      "description": "description task new",
+      "statusId": 1,
+      "executorId": 3,
+      "labels": 1
+    },
+    "existing": {
+      "name": "Task 2",
+      "description": "description task 2",
+      "statusId": 3,
+      "creatorId": 2,
+      "executorId": 3
+    },
+    "updated": {
+      "name": "Task updated",
+      "description": "description task updated",
+      "statusId": 1,
+      "creatorId": 2,
+      "executorId": 3,
+      "labels": [1, 2]
+    },
+    "deleted": {
+      "name": "Task 4",
+      "description": "description task 4",
+      "statusId": 3,
+      "creatorId": 2,
+      "executorId": 3
     }
   }
 }

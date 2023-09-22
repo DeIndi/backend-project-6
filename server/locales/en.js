@@ -18,12 +18,16 @@ export default {
           error: 'Failed to register',
           success: 'User registered successfully',
         },
+        accessError: 'Access denied!',
       },
       authError: 'Access denied! Please login',
     },
     layouts: {
       application: {
         users: 'Users',
+        statuses: 'Statuses',
+        labels: 'Labels',
+        tasks: 'Tasks',
         signIn: 'Login',
         signUp: 'Register',
         signOut: 'Logout',
@@ -40,9 +44,51 @@ export default {
         id: 'ID',
         email: 'Email',
         createdAt: 'Created at',
+        username: 'Username',
+        firstName: 'First name',
+        lastName: 'Last name',
+        password: 'Password',
         new: {
           submit: 'Register',
           signUp: 'Register',
+        },
+        edit: {
+          submit: 'Edit',
+        },
+        delete: {
+          submit: 'Delete',
+        },
+      },
+      tasks: {
+        id: 'ID',
+        creatorId: 'creatorId',
+        createdAt: 'Created at',
+        statusId: 'statusId',
+        executorId: 'executorId',
+        new: {
+          submit: 'Create',
+          create: 'Create task',
+        },
+        edit: {
+          submit: 'Edit',
+        },
+        delete: {
+          submit: 'Delete',
+        },
+      },
+      statuses: {
+        id: 'ID',
+        name: 'Name',
+        new: {
+          submit: 'Create',
+          create: 'Create status',
+        },
+        edit: {
+          submit: 'Edit',
+        },
+        delete: {
+          delete: 'Delete',
+          submit: 'Delete',
         },
       },
       welcome: {

@@ -21,8 +21,8 @@ export default (app) => {
         const validUser = app.objection.models.user.fromJson(req.body.data);
         await app.objection.models.user.query().insert(validUser);
         req.flash('info', i18next.t('flash.user.create.success'));
+        // req.logIn(user);
         reply.redirect(app.reverse('root'));
-        await req.logIn(user);
       } catch (error) {
         console.log('could not create new user');
         req.flash('error', i18next.t('flash.users.create.error'));
@@ -30,7 +30,7 @@ export default (app) => {
       }
       return reply;
     })
-    .get('/users/:id/edit', { preValidation: app.authenticate }, async (req, reply) => {
+    .get('/users/:id/edit', { name: 'editUser', preValidation: app.authenticate }, async (req, reply) => {
       const userId = req.params.id;
       if (req.user.id !== Number(userId)) {
         reply.redirect(app.reverse('users'));
@@ -50,13 +50,13 @@ export default (app) => {
       reply.render('users/new', { user, editing: true });
       return reply;
     })
-    .patch('/users/:id', async (req, reply) => {
+    .patch('/users/:id', { preValidation: app.authenticate }, async (req, reply) => {
       const user = new app.objection.models.user();
       user.$set(req.body.data);
       try {
         const validUser = app.objection.models.user.fromJson(req.body.data);
         await app.objection.models.user.query().update(validUser);
-        req.flash('info', i18next.t('flash.user.create.success'));
+        req.flash('info', i18next.t('flash.users.create.success'));
         reply.redirect(app.reverse('root'));
       } catch (error) {
         console.log('could not create new user');
@@ -65,28 +65,20 @@ export default (app) => {
       }
       return reply;
     })
-    .delete('/users/:id', { preValidation: app.authenticate }, async (req, reply) => {
-      const userId = req.params.id;
-      if (req.user.id !== Number(userId)) {
-        reply.redirect(app.reverse('users'));
-        req.flash('error', i18next.t('flash.users.delete.error'));
-        return reply;
-      }
-      try {
-        await app.objection.models.user.query()
-          .deleteById(userId);
-        /* if (!user) { */
-        req.logOut();
-        req.flash('info', i18next.t('flash.users.delete.success'));
-        reply.redirect(app.reverse('users'));
-        return reply;
-      } catch (error) {
-        console.error(error);
-        req.flash('error', i18next.t('flash.users.delete.error'));
-        return reply.status(500).send('Internal Server Error');
-      }
-    });
+    .delete('/users/:id', { name: 'deleteUser', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.params;
 
-  // eslint-disable-next-line max-len
-  /* TODO: `+buttonTo(route('user', { id: user.id }), 'delete')(class="btn btn-danger" value=t('views.user.delete.submit'))` */
+      if (Number(id) !== req.user.id) {
+        req.flash('error', i18next.t('flash.users.accessError'));
+        reply.redirect(app.reverse('users'));
+        return reply;
+      }
+
+      await app.objection.models.user.query().deleteById(id);
+      req.logOut();
+      req.flash('info', i18next.t('flash.users.delete.success'));
+
+      reply.redirect(app.reverse('users'));
+      return reply;
+    });
 };

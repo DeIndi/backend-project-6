@@ -10,6 +10,8 @@ const getFixturePath = (filename) => path.join('..', '..', '__fixtures__', filen
 const readFixture = (filename) => fs.readFileSync(new URL(getFixturePath(filename), import.meta.url), 'utf-8').trim();
 const getFixtureData = (filename) => JSON.parse(readFixture(filename));
 
+// const authorizeUser = (user) =>
+
 export const getTestData = () => getFixtureData('testData.json');
 
 export const prepareData = async (app) => {

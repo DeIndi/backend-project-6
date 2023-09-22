@@ -1,0 +1,43 @@
+extends ../layouts/application.pug
+
+block content
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.statuses.id')
+        th= t('views.statuses.name')
+        th= t('views.statuses.createdAt')
+        th= 'Actions'
+    tbody
+      each status in statuses
+        tr
+          td= status.id
+          td= status.name
+          td= formatDate(status.createdAt)
+          td
+            button(type="button", class="delete-button", data-status-id=status.id) t('views.statuses.delete')
+
+  script.
+    document.addEventListener("DOMContentLoaded", () => {
+      const deleteButtons = document.querySelectorAll(".delete-button");
+
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const statusId = button.getAttribute("data-status-id");
+
+          fetch(`/statuses/${statusId}`, {
+            method: "DELETE",
+          })
+                  .then(function (response) {
+                    if (response.ok) {
+                      button.closest("tr").remove();
+                    } else {
+                      console.error("Failed to delete status");
+                    }
+                  })
+                  .catch(function (error) {
+                    console.error("Error:", error);
+                  });
+        });
+      });
+    })

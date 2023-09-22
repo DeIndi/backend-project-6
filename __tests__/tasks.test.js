@@ -7,10 +7,11 @@ import init from '../server/plugin.js';
 import encrypt from '../server/lib/secure.cjs';
 import { getTestData, prepareData } from './helpers/index.js';
 
-describe('test users CRUD', () => {
+describe('test tasks CRUD', () => {
   let app;
   let knex;
   let models;
+  let cookie;
   const testData = getTestData();
 
   beforeAll(async () => {
@@ -28,6 +29,20 @@ describe('test users CRUD', () => {
     // и заполняем БД тестовыми данными
     await knex.migrate.latest();
     await prepareData(app);
+
+    // const users = await app.objection.models.user.query();
+    const user = {
+      email: 'lawrence.kulas87@outlook.com',
+      password: 'O6AvLIQL1cbzrre',
+    };
+    const sessionResponse = await app.inject({
+      method: 'POST',
+      url: app.reverse('session'),
+      payload: { data: user },
+    });
+    const [sessionCookie] = sessionResponse.cookies;
+    const { name, value } = sessionCookie;
+    cookie = { [name]: value };
   });
 
   beforeEach(async () => {
@@ -36,7 +51,7 @@ describe('test users CRUD', () => {
   it('index', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('users'),
+      url: app.reverse('tasks'),
     });
 
     expect(response.statusCode).toBe(200);
@@ -45,29 +60,30 @@ describe('test users CRUD', () => {
   it('new', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('newUser'),
+      url: app.reverse('newtask'),
     });
 
     expect(response.statusCode).toBe(200);
   });
 
-  it('create', async () => {
-    const params = testData.users.new;
+  it.only('create', async () => {
+    const params = testData.tasks.new;
+
     const response = await app.inject({
       method: 'POST',
-      url: app.reverse('users'),
+      url: app.reverse('tasks'),
+      cookies: cookie,
       payload: {
         data: params,
       },
     });
-    // console.log('response in test output: ', response);
     expect(response.statusCode).toBe(302);
     const expected = {
       ..._.omit(params, 'password'),
       passwordDigest: encrypt(params.password),
     };
-    const user = await models.user.query().findOne({ email: params.email });
-    expect(user).toMatchObject(expected);
+    const task = await models.task.query().findOne({ email: params.email });
+    expect(task).toMatchObject(expected);
   });
 
   afterEach(async () => {

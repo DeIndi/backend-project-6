@@ -4,10 +4,8 @@ doctype html
 html(lang="en")
   head
     title Task Manager
-    // script(src=assetPath('main.js'))
-    // link(href=assetPath('main.css') rel="stylesheet")
-    link(rel="script", href="/assets/theme/js/scripts.js")
-    link(rel="stylesheet", href="/assets/theme/css/styles.css")
+    script(src=assetPath('main.js'))
+    link(href=assetPath('main.css') rel="stylesheet")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
   body.d-flex.flex-column.min-vh-100
     nav.navbar.navbar-expand-lg.navbar-light.bg-light.mb-3
@@ -22,6 +20,12 @@ html(lang="en")
                 a.nav-link(href=route('users'))= t('layouts.application.users')
           ul.navbar-nav
             if isAuthenticated()
+              li.nav-item
+                a.nav-link(href=route('statuses'))= t('layouts.application.statuses')
+              li.nav-item
+                a.nav-link(href=route('tasks'))= t('layouts.application.tasks')
+              li.nav-item
+                a.nav-link(href=route('labels'))= t('layouts.application.labels')
               li.nav-item
                 +buttonTo(route('session'), 'delete')(class="btn nav-link" value=t('layouts.application.signOut'))
             else

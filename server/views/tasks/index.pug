@@ -1,0 +1,30 @@
+extends ../layouts/application.pug
+
+block content
+  table.table.table-striped
+    thead
+      tr
+        th= t('views.tasks.id')
+        th= t('views.tasks.name')
+        th= t('views.tasks.statusId')
+        th= t('views.tasks.creatorId')
+        th= t('views.tasks.executorId')
+        th= t('views.tasks.labels')
+        th= t('views.tasks.createdAt')
+        th= 'Actions'
+    tbody
+      each task in tasks
+        tr
+          td= task.id
+          td= task.name
+          td= task.statusId
+          td= task.creatorId
+          td= task.executorId
+          td= formatDate(task.createdAt)
+          td
+            .d-flex.flex-wrap
+              a.btn.btn-primary.me-1(href=route('edittask', { id: task.id }))= t('views.tasks.edit.submit')
+              +buttonTo(route('deletetask', { id: task.id }), 'delete')(class="btn btn-danger" value=t('views.tasks.delete.submit'))
+
+
+

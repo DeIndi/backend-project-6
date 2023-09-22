@@ -28,7 +28,11 @@ module.exports = class User extends unique(BaseModel) {
   set password(value) {
     this.passwordDigest = encrypt(value);
   }
-
+  
+  get name() {
+    return `${this.firstName} ${this.lastName}`;
+  }
+  
   verifyPassword(password) {
     return encrypt(password) === this.passwordDigest;
   }
