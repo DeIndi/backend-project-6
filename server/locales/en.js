@@ -91,6 +91,21 @@ export default {
           submit: 'Delete',
         },
       },
+      labels: {
+        id: 'ID',
+        name: 'Name',
+        new: {
+          submit: 'Create',
+          create: 'Create label',
+        },
+        edit: {
+          submit: 'Edit',
+        },
+        delete: {
+          delete: 'Delete',
+          submit: 'Delete',
+        },
+      },
       welcome: {
         index: {
           hello: 'Hello from Hexlet!',

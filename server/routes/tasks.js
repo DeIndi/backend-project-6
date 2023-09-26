@@ -3,9 +3,22 @@
 import i18next from 'i18next';
 
 export default (app) => {
+  const getLabelsForTask = async (taskId) => {
+    const labels = await app.objection.models.task
+      .query()
+      .where('tasks.id', taskId)
+      .join('tasks-to-labels', 'tasks.id', '=', 'tasks-to-labels.task_id')
+      .join('labels', 'tasks-to-labels.label_id', '=', 'labels.id')
+      .select('labels.name');
+    return labels;
+  };
+
   app
     .get('/tasks', { name: 'tasks' }, async (req, reply) => {
       const tasks = await app.objection.models.task.query();
+      for (const task of tasks) {
+        task.labels = await getLabelsForTask(task.id);
+      }
       reply.render('tasks/index', { tasks });
       return reply;
     })
@@ -14,26 +27,45 @@ export default (app) => {
       const users = await app.objection.models.user.query();
       const statuses = await app.objection.models.status.query();
       const labels = await app.objection.models.label.query();
-      reply.render('tasks/new', { task, users, statuses, labels });
+      reply.render('tasks/new', {
+        task, users, statuses, labels,
+      });
       return reply;
     })
     .post('/tasks', async (req, reply) => {
       const task = new app.objection.models.task();
-      console.log('req body from task post: ', req.body);
+      // console.log('req body from task post: ', req.body);
       // task.$set(req.body.data);
       try {
         const formData = req.body.data;
         const taskData = {
-          ...formData,
+          name: formData.name,
+          description: formData.description,
           statusId: Number(formData.statusId),
           creatorId: Number(req.user.id),
           executorId: !formData.executorId ? null : Number(formData.executorId),
-          labels: Number(formData.labels),
         };
-        await app.objection.models.task.query().insert(taskData);
+        console.log('formData: ', formData);
+        const insertedTask = await app.objection.models.task.query().insert(taskData);
+        const taskId = insertedTask.$id();
+        console.log('Task ID: ', taskId);
+        if (Array.isArray(formData.labels)) {
+          for (const label of formData.labels) {
+            await app.objection.models.task.query().insert({
+              task_id: taskId,
+              label_id: Number(label),
+            });
+          }
+        } else {
+          await app.objection.models.task.query().insert({
+            task_id: taskId,
+            label_id: Number(formData.labels),
+          });
+        }
         req.flash('info', i18next.t('flash.task.create.success'));
         reply.redirect(app.reverse('tasks'));
       } catch (error) {
+        console.log('error while adding task: ', error);
         req.flash('error', i18next.t('flash.tasks.create.error'));
         const users = await app.objection.models.user.query();
         const statuses = await app.objection.models.status.query();

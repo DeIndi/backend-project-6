@@ -17,7 +17,9 @@ block content
 
     br
 
-    +select(task, 'labels', labels, errors)
+    +selectMultiple(task, 'labels', labels, errors)
+
+    br
 
     +submit(task)(value=t('views.tasks.new.create'))
 

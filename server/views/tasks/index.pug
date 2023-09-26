@@ -20,6 +20,9 @@ block content
           td= task.statusId
           td= task.creatorId
           td= task.executorId
+          td
+            each label in task.labels
+              span.label.label-info.mr-1= label.name
           td= formatDate(task.createdAt)
           td
             .d-flex.flex-wrap

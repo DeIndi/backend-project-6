@@ -35,6 +35,19 @@ mixin select(entity, propertyName, options, errors = {})
   if !_.isEmpty(propertyErrors)
     .invalid-feedback= propertyErrors.map(({message}) => message).join('. ')
 
+mixin selectMultiple(entity, propertyName, options, errors = {})
+  - propertyErrors = _.get(errors, propertyName)
+  - inputId = getInputId(propertyName)
+  .mb-3(class=(errors[propertyName] && 'has-danger'))
+  label(
+    for= inputId
+  )= propertyName
+  select(name=getInputName(propertyName), id=inputId, class='form-control', multiple)
+    each option in options
+      option(value=option.id)= option.name
+  if !_.isEmpty(propertyErrors)
+    .invalid-feedback= propertyErrors.map(({message}) => message).join('. ')
+
 mixin submit(form = null)
   input(class='btn btn-primary' type='submit')&attributes(attributes)
 
